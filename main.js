@@ -31,3 +31,29 @@ const toggleMenu = () => {
     const navLinks = document.querySelector('.nav-links');
     navLinks.classList.toggle('show');
 };
+
+// Fade-in on scroll animation
+document.addEventListener('DOMContentLoaded', () => {
+    const sectionsToAnimate = document.querySelectorAll('.approach, .features, .insights, .cta-section, .article-card, .feature-card, .page-content-wrapper');
+
+    const observerOptions = {
+        root: null, // relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.1 // 10% of the item is visible
+    };
+
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once visible
+            }
+        });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionsToAnimate.forEach(section => {
+        observer.observe(section);
+    });
+});
